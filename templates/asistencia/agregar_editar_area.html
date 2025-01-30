@@ -1,0 +1,111 @@
+{% extends 'asistencia/base.html' %}
+
+{% block content %}
+<!-- Estilos personalizados -->
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa; /* Fondo claro */
+    }
+
+    h2 {
+        color: #6A1B9A; /* Morado */
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .alert {
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        border: 1px solid #ced4da;
+        padding: 12px;
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .form-control:focus {
+        border-color: #6A1B9A; /* Morado */
+        box-shadow: 0 0 8px rgba(106, 27, 154, 0.3);
+    }
+
+    .btn-primary {
+        background-color: #6A1B9A; /* Morado */
+        border: none;
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+
+    .btn-primary:hover {
+        background-color: #4A148C; /* Morado oscuro */
+    }
+
+    .btn-secondary {
+        background-color: #FFD700; /* Amarillo */
+        border: none;
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-size: 16px;
+        color: black;
+    }
+
+    .btn-secondary:hover {
+        background-color: #e0a800; /* Amarillo oscuro */
+    }
+
+    /* Ocultar el footer */
+    footer {
+        display: none;
+    }
+</style>
+
+<div class="container mt-4">
+    <h2>
+        {% if area %}
+            Editar Área: {{ area.nombre }}
+        {% else %}
+            Agregar Nueva Área
+        {% endif %}
+    </h2>
+
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre del Área</label>
+            <input type="text" class="form-control" id="nombre" name="nombre"
+                   value="{% if area %}{{ area.nombre }}{% endif %}" required>
+        </div>
+        <div class="mb-3">
+            <label for="capacidad_maxima" class="form-label">Capacidad Máxima</label>
+            <input type="number" class="form-control" id="capacidad_maxima" name="capacidad_maxima"
+                   value="{% if area %}{{ area.capacidad_maxima }}{% endif %}" required>
+        </div>
+        <div class="d-grid gap-2 d-md-block">
+            <button type="submit" class="btn btn-primary">
+                {% if area %}
+                    Guardar Cambios
+                {% else %}
+                    Agregar Área
+                {% endif %}
+            </button>
+            <a href="{% url 'lista_areas' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'asistencia/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h2 class="mb-4">Registrar Asistencia</h2>
+            <!-- Contenedor para la cámara -->
+            <div id="camera-container" class="mb-3" style="width: 100%; max-width: 500px; margin: 0 auto;">
+                <video id="camera" width="100%" autoplay style="border-radius: 10px;"></video>
+            </div>
+            <!-- Mensajes de estado -->
+            <div id="status-message" class="alert alert-info" style="display: none;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Script para escanear el código QR -->
+<script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+<script>
+    const video = document.getElementById('camera');
+    const statusMessage = document.getElementById('status-message');
+
+    // Acceder a la cámara
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(stream => {
+            console.log('Cámara accedida correctamente');
+            video.srcObject = stream;
+            video.play();
+
+            // Esperar a que el video esté listo
+            video.onloadedmetadata = () => {
+                console.log('Dimensiones del video:', video.videoWidth, video.videoHeight);
+                requestAnimationFrame(scanQR);
+            };
+        })
+        .catch(error => {
+            console.error('Error al acceder a la cámara:', error);
+            statusMessage.textContent = 'Error al acceder a la cámara. Asegúrate de permitir el acceso.';
+            statusMessage.style.display = 'block';
+            statusMessage.classList.remove('alert-info');
+            statusMessage.classList.add('alert-danger');
+        });
+
+    // Función para escanear el código QR
+    function scanQR() {
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        if (video.videoWidth === 0 || video.videoHeight === 0) {
+            console.error('El video no tiene dimensiones válidas.');
+            statusMessage.textContent = 'La cámara no está enviando datos. Inténtalo de nuevo.';
+            statusMessage.style.display = 'block';
+            statusMessage.classList.remove('alert-info');
+            statusMessage.classList.add('alert-danger');
+            return;
+        }
+
+        const context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+        // Escanear el código QR
+        const code = jsQR(imageData.data, imageData.width, imageData.height, {
+            inversionAttempts: 'dontInvert',
+        });
+
+        if (code) {
+            console.log('Código QR detectado:', code.data);
+            statusMessage.textContent = `Código QR detectado: ${code.data}`;
+            statusMessage.style.display = 'block';
+            statusMessage.classList.remove('alert-info');
+            statusMessage.classList.add('alert-success');
+
+            // Enviar la identificación al backend
+            fetch('/registrar_asistencia/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: `identificacion=${code.data}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    statusMessage.textContent = data.message;
+                    statusMessage.style.display = 'block';
+                    statusMessage.classList.remove('alert-info');
+                    statusMessage.classList.add('alert-success');
+                } else {
+                    statusMessage.textContent = data.message;
+                    statusMessage.style.display = 'block';
+                    statusMessage.classList.remove('alert-info');
+                    statusMessage.classList.add('alert-danger');
+                }
+                // Continuar escaneando después de procesar el código QR
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                    requestAnimationFrame(scanQR);
+                }, 2000);
+            })
+            .catch(error => {
+                console.error('Error al enviar la identificación:', error);
+                statusMessage.textContent = 'Error al enviar la identificación. Inténtalo de nuevo.';
+                statusMessage.style.display = 'block';
+                statusMessage.classList.remove('alert-info');
+                statusMessage.classList.add('alert-danger');
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                    requestAnimationFrame(scanQR);
+                }, 2000);
+            });
+        } else {
+            // Si no se detecta un código QR, continuar escaneando
+            requestAnimationFrame(scanQR);
+        }
+    }
+</script>
+{% endblock %}

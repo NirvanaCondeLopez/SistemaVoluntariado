@@ -1,0 +1,45 @@
+{% extends 'asistencia/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="hero-section text-center">
+    <div class="container-fluid px-5">
+        <h1 class="display-5 fw-bold">Bienvenido al Sistema de Asistencia</h1>
+        <p class="lead">Gestiona eficientemente las asistencias de estudiantes y voluntarios.</p>
+        <a href="{% url 'agregar_voluntario' %}" class="btn btn-warning btn-lg mt-3">Comenzar Ahora</a>
+    </div>
+</section>
+
+<section class="container-fluid mt-5 px-5">
+    <div class="row text-center">
+        <div class="col-md-4" data-aos="fade-up">
+            <div class="card border-0 shadow h-100">
+                <div class="card-body">
+                    <i class="fas fa-users fa-3x mb-3" style="color: #6a1b9a;"></i>
+                    <h5 class="card-title fw-bold">Gestión de Estudiantes</h5>
+                    <p class="card-text">Registra y administra estudiantes de manera eficiente.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="card border-0 shadow h-100">
+                <div class="card-body">
+                    <i class="fas fa-calendar-check fa-3x mb-3" style="color: #6a1b9a;"></i>
+                    <h5 class="card-title fw-bold">Registro de Asistencia</h5>
+                    <p class="card-text">Controla las asistencias con precisión y claridad.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="card border-0 shadow h-100">
+                <div class="card-body">
+                    <i class="fas fa-chart-line fa-3x mb-3" style="color: #6a1b9a;"></i>
+                    <h5 class="card-title fw-bold">Reportes y Gráficas</h5>
+                    <p class="card-text">Genera reportes visuales y toma decisiones con datos confiables.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

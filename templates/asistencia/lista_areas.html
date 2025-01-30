@@ -1,0 +1,133 @@
+{% extends 'asistencia/base.html' %}
+
+{% block content %}
+<!-- Estilos personalizados -->
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa; /* Fondo claro */
+    }
+
+    h2 {
+        color: #6A1B9A; /* Morado */
+        font-weight: bold;
+    }
+
+    .btn-primary-custom {
+        background-color: #6A1B9A; /* Morado */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+
+    .btn-primary-custom:hover {
+        background-color: #4A148C; /* Morado oscuro */
+    }
+
+    .btn-warning-custom {
+        background-color: #FFD700; /* Amarillo */
+        color: black;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-size: 14px;
+    }
+
+    .btn-warning-custom:hover {
+        background-color: #e0a800; /* Amarillo oscuro */
+    }
+
+    .table {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .table thead {
+        background-color: #6A1B9A; /* Morado */
+        color: white;
+    }
+
+    .table th, .table td {
+        padding: 12px;
+        text-align: center;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(106, 27, 154, 0.1); /* Morado claro */
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(255, 215, 0, 0.1); /* Amarillo claro */
+    }
+
+    footer {
+        display: none;
+    }
+</style>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Seleccionar Área Disponible</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Capacidad Máxima</th>
+                    <th>Lugares Disponibles</th>
+                    <th>Seleccionar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for area in areas %}
+                <tr>
+                    <td>{{ area.nombre }}</td>
+                    <td>{{ area.capacidad_maxima }}</td>
+                    <td>{{ area.lugares_disponibles }}</td>
+                    <td>
+                        <form method="post" action="{% url 'seleccionar_area' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="area_id" value="{{ area.id }}">
+                            <button type="submit" class="btn btn-primary-custom">Seleccionar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginación -->
+    <div class="pagination-container">
+        <ul class="pagination">
+            {% if areas.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">&laquo; Primera</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ areas.previous_page_number }}">Anterior</a>
+                </li>
+            {% endif %}
+
+            {% for num in areas.paginator.page_range %}
+                <li class="page-item {% if areas.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+            {% endfor %}
+
+            {% if areas.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ areas.next_page_number }}">Siguiente</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ areas.paginator.num_pages }}">Última &raquo;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

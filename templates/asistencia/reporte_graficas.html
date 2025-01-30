@@ -1,0 +1,97 @@
+{% extends 'asistencia/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4" style="color: #6A1B9A;">Reporte de Asistencias</h2>
+
+    <!-- Filtros -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header" style="background-color: #FFD700; color: #000;">
+            <h4 class="card-title mb-0">Filtros</h4>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
+                    <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio">
+                </div>
+                <div class="col-md-4">
+                    <label for="fecha_fin" class="form-label">Fecha de Fin</label>
+                    <input type="date" class="form-control" id="fecha_fin" name="fecha_fin">
+                </div>
+                <div class="col-md-4">
+                    <label for="tipo_estudiante" class="form-label">Tipo de Estudiante</label>
+                    <select class="form-select" id="tipo_estudiante" name="tipo_estudiante">
+                        <option value="">Todos</option>
+                        <option value="SS">Servicio Social</option>
+                        <option value="PP">Prácticas Profesionales</option>
+                        <option value="V">Voluntariado</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn" style="background-color: #6A1B9A; color: white;">Aplicar Filtros</button>
+                    <button type="submit" name="export_excel" value="1" class="btn" style="background-color: #6A1B9A; color: white;">Exportar a Excel</button>
+                    <button type="submit" name="export_pdf" value="1" class="btn" style="background-color: #6A1B9A; color: white;">Exportar a PDF</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Gráficas -->
+    <div class="row">
+        <!-- Gráfica 1: Asistencias por tipo de estudiante -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header" style="background-color: #FFD700; color: #000;">
+                    <h4 class="card-title mb-0">Asistencias por Tipo de Estudiante</h4>
+                </div>
+                <div class="card-body">
+                    <img src="data:image/png;base64,{{ grafica_tipo }}" alt="Asistencias por Tipo de Estudiante" class="img-fluid">
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfica 2: Asistencias por fecha -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header" style="background-color: #FFD700; color: #000;">
+                    <h4 class="card-title mb-0">Asistencias por Fecha</h4>
+                </div>
+                <div class="card-body">
+                    <img src="data:image/png;base64,{{ grafica_fecha }}" alt="Asistencias por Fecha" class="img-fluid">
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfica 3: Asistencias por área -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header" style="background-color: #FFD700; color: #000;">
+                    <h4 class="card-title mb-0">Asistencias por Área</h4>
+                </div>
+                <div class="card-body">
+                    <img src="data:image/png;base64,{{ grafica_area }}" alt="Asistencias por Área" class="img-fluid">
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfica 4: Asistencias por universidad -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header" style="background-color: #FFD700; color: #000;">
+                    <h4 class="card-title mb-0">Asistencias por Universidad</h4>
+                </div>
+                <div class="card-body">
+                    <img src="data:image/png;base64,{{ grafica_universidad }}" alt="Asistencias por Universidad" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón para volver al inicio -->
+    <div class="text-center mt-4">
+        <a href="{% url 'index' %}" class="btn" style="background-color: #6A1B9A; color: white;">Volver al Inicio</a>
+    </div>
+</div>
+{% endblock %}

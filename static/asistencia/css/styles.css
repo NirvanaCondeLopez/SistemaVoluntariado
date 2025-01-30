@@ -1,0 +1,209 @@
+/* Estilos generales */
+body {
+    font-family: 'Raleway', sans-serif;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+    color: #4a148c;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+main {
+    flex: 1;
+    padding: 0; /* Asegúrate de que no haya padding que cause espacio adicional */
+    margin: 0; /* Asegúrate de que no haya margen que cause espacio adicional */
+}
+
+/* Navbar */
+.navbar {
+    background-color: #6C5B7B;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    color: #ffeb3b;
+    font-size: 4rem !important;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+.navbar .navbar-nav .nav-link {
+    color:  white !important;
+    margin-right: 1.5rem;
+    font-size: 1.5rem !important;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #fff !important;
+}
+
+/* Menú desplegable */
+.dropdown-menu {
+    background-color: #6a1b9a;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    color: #ffeb3b !important;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #4a148c;
+    color: #fff !important;
+}
+
+/* Footer */
+footer {
+    background-color: #6a1b9a;
+    color: #ffeb3b;
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: auto; /* Empuja el footer al final */
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0; /* Asegúrate de que no haya margen inferior */
+}
+
+footer h5 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+footer p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+footer a {
+    color: #ffeb3b;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #fff;
+}
+
+/* Botones */
+.btn {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-warning {
+    background-color: #ffeb3b;
+    color: #6a1b9a;
+    border: none;
+}
+
+.btn-warning:hover {
+    background-color: #fdd835;
+    color: #4a148c;
+}
+
+.btn-outline-light {
+    border-color: #ffeb3b;
+    color: #ffeb3b;
+}
+
+.btn-outline-light:hover {
+    background-color: #ffeb3b;
+    color: #6a1b9a;
+}
+
+/* Secciones */
+.hero-section {
+    padding: 120px 0;
+    background-color: #fff;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-size: 4rem !important;
+    font-weight: bold;
+    color: #6a1b9a;
+    margin-bottom: 1.5rem;
+}
+
+.hero-section p {
+    font-size: 2rem !important;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.features-section {
+    background-color: #fff;
+    padding: 100px 0;
+}
+
+.feature-item {
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.feature-item h3 {
+    color: #6a1b9a;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+.feature-item p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.cta-section {
+    padding: 100px 0;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.cta-section h2 {
+    color: #6a1b9a;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.cta-section p {
+    color: #666;
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.navbar-nav .menu-option {
+    position: relative;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar-nav .menu-option:hover::after {
+    content: "♥";
+    font-size: 2rem;
+    color: #6a1b9a; /* Corazón morado */
+    position: absolute;
+    top: 100%; /* Justo debajo de la opción */
+    left: 50%; /* Centrado horizontalmente */
+    transform: translateX(-50%); /* Ajuste para centrar el corazón */
+    margin-top: 5px; /* Espacio entre la opción y el corazón */
+}
